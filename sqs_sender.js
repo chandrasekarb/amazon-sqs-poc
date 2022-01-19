@@ -15,12 +15,12 @@ const queueURL = "SQS_QUEUE_URL";
 
 app.post('/add', (req, res) => {
 
-  let orderData = {
+  let newData = {
       'id': req.body['id'],
       'value': req.body['value'],
   }
 
-  let sqsOrderData = {
+  let sqsData = {
       MessageAttributes: {
         "id": {
           DataType: "String",
@@ -31,14 +31,13 @@ app.post('/add', (req, res) => {
           StringValue: "add"
         },
       },
-      MessageBody: JSON.stringify(orderData),
+      MessageBody: JSON.stringify(newData),
       // MessageDeduplicationId: uuid.v1(),
       // MessageGroupId: "aa@123",
       QueueUrl: queueURL
   };
 
-  // Send the order data to the SQS queue
-  let sendSqsMessage = sqs.sendMessage(sqsOrderData).promise();
+  let sendSqsMessage = sqs.sendMessage(sqsData).promise();
 
   sendSqsMessage.then((data) => {
       console.log("Success", data.MessageId);
@@ -52,12 +51,12 @@ app.post('/add', (req, res) => {
 
 app.post('/update', (req, res) => {
 
-  let orderData = {
+  let updateData = {
       'id': req.body['id'],
       'value': req.body['value'],
   }
 
-  let sqsOrderData = {
+  let sqsData = {
       MessageAttributes: {
         "id": {
           DataType: "String",
@@ -68,14 +67,13 @@ app.post('/update', (req, res) => {
           StringValue: "update"
         },
       },
-      MessageBody: JSON.stringify(orderData),
+      MessageBody: JSON.stringify(updateData),
       // MessageDeduplicationId: uuid.v1(),
       // MessageGroupId: "aa@123",
       QueueUrl: queueURL
   };
 
-  // Send the order data to the SQS queue
-  let sendSqsMessage = sqs.sendMessage(sqsOrderData).promise();
+  let sendSqsMessage = sqs.sendMessage(sqsData).promise();
 
   sendSqsMessage.then((data) => {
       console.log("Success", data.MessageId);
@@ -89,11 +87,11 @@ app.post('/update', (req, res) => {
 
 app.post('/delete', (req, res) => {
 
-  let orderData = {
+  let deleteData = {
       'id': req.body['id'],
   }
 
-  let sqsOrderData = {
+  let sqsData = {
       MessageAttributes: {
         "id": {
           DataType: "String",
@@ -104,14 +102,13 @@ app.post('/delete', (req, res) => {
           StringValue: "delete"
         },
       },
-      MessageBody: JSON.stringify(orderData),
+      MessageBody: JSON.stringify(deleteData),
       // MessageDeduplicationId: uuid.v1(),
       // MessageGroupId: "aa@123",
       QueueUrl: queueURL
   };
 
-  // Send the order data to the SQS queue
-  let sendSqsMessage = sqs.sendMessage(sqsOrderData).promise();
+  let sendSqsMessage = sqs.sendMessage(sqsData).promise();
 
   sendSqsMessage.then((data) => {
       console.log("Success", data.MessageId);
